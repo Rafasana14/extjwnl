@@ -108,7 +108,7 @@ public class MapDictionary extends Dictionary {
     }
 
     @Override
-    public void removeSynset(Synset synset) throws JWNLException {
+    public synchronized void removeSynset(Synset synset) throws JWNLException {
         getTable(synset.getPOS(), DictionaryFileType.DATA).remove(synset.getKey());
         super.removeSynset(synset);
     }
@@ -132,7 +132,7 @@ public class MapDictionary extends Dictionary {
     }
 
     @Override
-    public void removeIndexWord(IndexWord indexWord) throws JWNLException {
+    public synchronized void removeIndexWord(IndexWord indexWord) throws JWNLException {
         getTable(indexWord.getPOS(), DictionaryFileType.INDEX).remove(indexWord.getKey());
         super.removeIndexWord(indexWord);
     }

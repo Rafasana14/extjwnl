@@ -295,7 +295,7 @@ public abstract class Dictionary {
         restore = dictionary;
     }
 
-    public static Dictionary getRestoreDictionary() {
+    public synchronized static Dictionary getRestoreDictionary() {
         return restore;
     }
 

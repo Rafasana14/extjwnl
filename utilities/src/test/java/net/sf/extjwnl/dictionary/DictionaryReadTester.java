@@ -26,6 +26,82 @@ public class DictionaryReadTester {
     /**
      * The offset for wn2.1.
      */
+
+    protected static Dictionary s_dictionary;
+
+    @Before
+    public void setup() {
+        if (null != s_dictionary) {
+            dictionary = s_dictionary;
+        }
+    }
+
+    public DictionaryReadTester(Dictionary dictionary) {
+        this.dictionary = dictionary;
+    }
+
+    @Test
+    public void testRedAdj() throws JWNLException {
+        IndexWord iw = dictionary.getIndexWord(POS.ADJECTIVE, "red");
+        Assert.assertNotNull("IndexWord loaded", iw);
+        Synset synset = iw.getSenses().get(0);
+        Word word = synset.getWords().get(0);
+        Assert.assertEquals("Use count testing", 43, word.getUseCount());
+        Assert.assertEquals("Sense key testing", "red%5:00:01:chromatic:00", word.getSenseKeyWithAdjClass());
+    }
+
+    @Test
+    public void testGetWordBySenseKeyNoPercent() throws JWNLException {
+        Assert.assertNull(dictionary.getWordBySenseKey(""));
+    }
+
+    @Test
+    public void testGetWordBySenseKeyPercentOnly() throws JWNLException {
+        Assert.assertNull(dictionary.getWordBySenseKey("%"));
+    }
+
+    @Test
+    public void testGetWordBySenseKeyNoSynsetType() throws JWNLException {
+        Assert.assertNull(dictionary.getWordBySenseKey("%:"));
+    }
+
+    @Test
+    public void testGetWordBySenseKeyBadSynsetType() throws JWNLException {
+        Assert.assertNull(dictionary.getWordBySenseKey("%9:"));
+    }
+
+    @Test
+    public void testGetWordBySenseKeyMissingWord() throws JWNLException {
+        Assert.assertNull(dictionary.getWordBySenseKey("©%1:"));
+    }
+
+    protected void runAllTests() throws JWNLException, CloneNotSupportedException {
+        testTank();
+        testBrightAdj();
+        testDissilientAdjS();
+        testBrightAdv();
+        testRandomIndexWord();
+        testComplete();
+        testCycles();
+        testLexFileNumber();
+        testAntonym();
+        testExceptions();
+        testDerivedForms();
+        testRunningAway();
+        testFairSenseKey();
+        testOnline();
+        testVerbFrames();
+        testNonExistentIndexWordIterator();
+        testIndexWordIterator();
+        testSpacedIndexWordIterator();
+        testMorphoLookupBaseFormNull();
+        testMorphoLookupBaseForm();
+        testMorphoLookupAllBaseFormsNull();
+        testMorphoLookupAllBaseForms();
+        testExceptionIterator();
+        testSynsetIterator();
+        testGetWordBySenseKeyNoPercent();
+    }
     protected final long wn21TankOffset = 4337089;
 
     /**
@@ -120,7 +196,6 @@ public class DictionaryReadTester {
 
     protected final String iteratorLemma = "stop";
     protected final String iteratorSpacedLemma = "zoom in";
-
     protected static Dictionary dictionary;
 
     public DictionaryReadTester() {

@@ -230,7 +230,7 @@ public abstract class AbstractCachingDictionary extends Dictionary {
     }
 
     @Override
-    public void removeSynset(Synset synset) throws JWNLException {
+    public synchronized void removeSynset(Synset synset) throws JWNLException {
         clearSynset(synset.getPOS(), synset.getKey());
         super.removeSynset(synset);
     }
@@ -254,7 +254,7 @@ public abstract class AbstractCachingDictionary extends Dictionary {
     }
 
     @Override
-    public void removeIndexWord(IndexWord indexWord) throws JWNLException {
+    public synchronized void removeIndexWord(IndexWord indexWord) throws JWNLException {
         clearIndexWord(indexWord.getPOS(), indexWord.getKey());
         super.removeIndexWord(indexWord);
     }
